@@ -22,3 +22,11 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    Systemeio\TestForCandidates\PaymentProcessor\PaypalPaymentProcessor:
+        autowire: true
+        autoconfigure: true
+
+    Systemeio\TestForCandidates\PaymentProcessor\StripePaymentProcessor:
+        autowire: true
+        autoconfigure: true
