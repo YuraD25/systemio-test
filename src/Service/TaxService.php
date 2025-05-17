@@ -7,12 +7,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TaxService
 {
-    private array $taxRates = [
-        'DE' => 19,
-        'IT' => 22,
-        'FR' => 20,
-        'GR' => 24,
-    ];
+    private array $taxRates;
 
     private array $taxNumberPatterns = [
         'DE' => '/^DE[0-9]{9}$/',
@@ -20,6 +15,11 @@ class TaxService
         'GR' => '/^GR[0-9]{9}$/',
         'FR' => '/^FR[A-Z]{2}[0-9]{9}$/',
     ];
+
+    public function __construct(ParameterBagInterface $params)
+    {
+        $this->taxRates = $params->get('tax_rates');
+    }
 
     public function getTaxRateForCountry(string $countryCode): float
     {

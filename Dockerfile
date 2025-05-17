@@ -5,6 +5,16 @@ RUN apk add --no-cache git zip bash
 RUN apk add --no-cache postgresql-dev \
     && docker-php-ext-install pdo_pgsql pdo_mysql
 
+# XDebug
+ARG INSTALL_XDEBUG=false
+RUN if [ ${INSTALL_XDEBUG} = true ]; \
+  then \
+    pecl install xdebug && docker-php-ext-enable xdebug; \
+  fi;
+
+# Xdebug config
+COPY ./docker/php/conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
 ENV COMPOSER_CACHE_DIR=/tmp/composer-cache
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
