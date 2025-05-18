@@ -37,11 +37,20 @@ class TaxService
         $countryCode = strtoupper(substr($taxNumber, 0, 2));
 
         if (!isset($this->taxNumberPatterns[$countryCode])) {
-            throw new BadRequestHttpException(sprintf('Tax number format for country %s is not supported or country code is invalid.', $countryCode));
+            throw new BadRequestHttpException(
+                sprintf('Tax number format for country %s is not supported or country code is invalid.', $countryCode)
+            );
         }
 
         if (!preg_match($this->taxNumberPatterns[$countryCode], $taxNumber)) {
-            throw new BadRequestHttpException(sprintf('Invalid tax number format for %s: %s. Expected format: %s', $countryCode, $taxNumber, $this->getExampleFormat($countryCode)));
+            throw new BadRequestHttpException(
+                sprintf(
+                    'Invalid tax number format for %s: %s. Expected format: %s',
+                    $countryCode,
+                    $taxNumber,
+                    $this->getExampleFormat($countryCode)
+                )
+            );
         }
 
         return $countryCode;
@@ -69,4 +78,3 @@ class TaxService
         return $price * ($rate / 100);
     }
 }
-

@@ -6,20 +6,13 @@ use App\Repository\ProductRepository;
 use App\Repository\CouponRepository;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class PriceCalculatorService
+readonly class PriceCalculatorService
 {
-    private ProductRepository $productRepository;
-    private CouponRepository $couponRepository;
-    private TaxService $taxService;
-
     public function __construct(
-        ProductRepository $productRepository,
-        CouponRepository $couponRepository,
-        TaxService $taxService
+        private ProductRepository $productRepository,
+        private CouponRepository $couponRepository,
+        private TaxService $taxService
     ) {
-        $this->productRepository = $productRepository;
-        $this->couponRepository = $couponRepository;
-        $this->taxService = $taxService;
     }
 
     public function calculatePrice(int $productId, string $taxNumber, ?string $couponCode): float
@@ -40,7 +33,7 @@ class PriceCalculatorService
             if (!$coupon) {
                 throw new BadRequestHttpException(sprintf('Coupon code "%s" not found.', $couponCode));
             }
-            
+
             if ($coupon->getType() === "percentage") {
                 $discountedPrice = $basePrice - ($basePrice * ($coupon->getValue() / 100));
             } elseif ($coupon->getType() === "fixed") {
