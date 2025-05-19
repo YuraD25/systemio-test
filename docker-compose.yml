@@ -11,7 +11,6 @@ services:
             - .:/app:rw
         environment:
             - APP_ENV=${APP_ENV}
-            - INSTALL_XDEBUG=${INSTALL_XDEBUG}
             - POSTGRES_HOST=${POSTGRES_HOST}
             - POSTGRES_DB=${POSTGRES_DB}
             - POSTGRES_USER=${POSTGRES_USER}
